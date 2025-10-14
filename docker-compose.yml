@@ -3,6 +3,7 @@ services:
     hostname: ws_server
     image: eduardogomesheleno/ws_server:latest
     networks:
+      - traefik_traefik_proxy
       - rabbitmq_network
       - redis_network
     deploy:
