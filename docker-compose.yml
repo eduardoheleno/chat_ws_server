@@ -1,0 +1,34 @@
+services:
+  ws_server:
+    hostname: ws_server
+    image: eduardogomesheleno/ws_server:latest
+    networks:
+      - rabbitmq_network
+      - redis_network
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.ws-server.entrypoints=web"
+        - "traefik.http.routers.ws-server.rule=Host(`eduardodev.app.br`) && PathPrefix(`/ws_server`)"
+        - "traefik.http.middlewares.ws-server-strip.stripprefix.prefixes=/ws_server"
+        - "traefik.http.routers.ws-server.middlewares=ws-server-strip"
+        - "traefik.http.services.ws-server.loadbalancer.server.port=8000"
+      placement:
+        constraints:
+          - node.hostname == instance2
+
+networks:
+  traefik_traefik_proxy:
+    driver: overlay
+    attachable: true
+    external: true
+
+  rabbitmq_network:
+    driver: overlay
+    attachable: true
+    external: true
+
+  redis_network:
+    driver: overlay
+    attachable: true
+    external: true
