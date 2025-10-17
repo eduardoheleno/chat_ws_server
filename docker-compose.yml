@@ -21,15 +21,12 @@ services:
 networks:
   traefik_traefik_proxy:
     driver: overlay
-    attachable: true
     external: true
 
   rabbitmq_network:
     driver: overlay
-    attachable: true
     external: true
 
   redis_network:
     driver: overlay
-    attachable: true
     external: true
